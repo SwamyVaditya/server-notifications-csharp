@@ -2,9 +2,11 @@
 using Moq;
 using NUnit.Framework;
 using ServerNotifications.Web.Domain;
-using ServerNotifications.Web.Domain.Twilio;
 using ServerNotifications.Web.Models;
 using ServerNotifications.Web.Models.Repository;
+using Twilio.Http;
+using Twilio;
+using Twilio.Clients;
 
 namespace ServerNotifications.Web.Test.Domain
 {
@@ -21,15 +23,16 @@ namespace ServerNotifications.Web.Test.Domain
                     new Administrator {Name = "Alice"}
                 });
 
-            var mockRestClient = new Mock<IRestClient>();
-            mockRestClient.Setup(
-                x => x.SendMessage(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+            var twilioClientMock = new Mock<ITwilioRestClient>();
+            twilioClientMock.Setup(c => c.AccountSid).Returns("AccountSID");
+            twilioClientMock.Setup(c => c.Request(It.IsAny<Request>()))
+                            .Returns(new Response(System.Net.HttpStatusCode.Created, ""));
 
-            new Notifier(mockRepository.Object, mockRestClient.Object).SendMessages("some error message");
+            TwilioClient.SetRestClient(twilioClientMock.Object);
+            new Notifier(mockRepository.Object).SendMessages("some error message");
 
-            mockRestClient.Verify(
-                x => x.SendMessage(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()),
-                Times.Exactly(2));
+            twilioClientMock.Verify(
+                c => c.Request(It.IsAny<Request>()), Times.Exactly(2));            
         }
     }
 }

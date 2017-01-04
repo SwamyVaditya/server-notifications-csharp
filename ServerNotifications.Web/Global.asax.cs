@@ -26,7 +26,7 @@ namespace ServerNotifications.Web
                 "It appears the server is having issues." +
                 "Exception: {0}. Go to: http://newrelic.com for more details.", exception.Message);
 
-            var notifier = new Notifier(new AdministratorsRepository(), new RestClient());
+            var notifier = new Notifier(new AdministratorsRepository());
             notifier.SendMessages(message);
         }
     }
