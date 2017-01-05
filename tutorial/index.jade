@@ -35,7 +35,7 @@
       * [Definition of the CSV Format](https://tools.ietf.org/html/rfc4180#section-2)
 
   .step(data-file='ServerNotifications.Web/Domain/Twilio/RestClient.cs',
-  data-highlight='14-17')
+  data-highlight='18-21')
     :markdown
       ## Configure Twilio client
 
@@ -96,7 +96,7 @@
       * [CsvHelper](http://joshclose.github.io/CsvHelper/)
 
   .step(data-file='ServerNotifications.Web/Domain/Twilio/RestClient.cs',
-  data-highlight='14-17,24-27')
+  data-highlight='24-32')
     :markdown
       ## Sending a text message
 
@@ -105,7 +105,7 @@
       using the [Twilio REST API](https://www.twilio.com/docs/api/rest):
       `From`, `To`, and `Body`. [US and Canadian phone
       numbers](https://www.twilio.com/help/faq/sms/is-mms-supported-for-all-carriers-in-us-and-canada)
-      can also send an image with the message.
+      can also send an image with the message through `mediaUrl`.
 
       ---
 
